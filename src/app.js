@@ -1,12 +1,22 @@
 import path from "node:path";
-import fs from "node:fs" 
+import fs from "node:fs";
 
-import { ROOT , PORT , DB_DIRECTORY} from "./config.js";
+import express from "express"
 
-console.log( "directorio desde .env",path.join(DB_DIRECTORY))
+import { ROOT, PORT, DB_DIRECTORY } from "./config.js";
+
+
+const app = express()
+
+console.log("directorio desde .env es", path.join(DB_DIRECTORY))
 console.log("El directorio existe?: ",
   fs.existsSync(DB_DIRECTORY)
 )
 
-console.log("root desde .env",ROOT)
-console.log("port desde .env",PORT)
+app.get('/', (req, res) => {
+  res.send('Hola desde api node 2026')
+})
+
+app.listen(PORT, () => {
+  console.log('Server on port:', PORT)
+})
