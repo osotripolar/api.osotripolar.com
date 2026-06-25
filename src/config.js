@@ -22,6 +22,9 @@ if (!(fs.existsSync(DB_DIRECTORY))){
 // ================= EXPORTAMOS LAS VARIABLES ========================
 
 // VARIABLES VARIAS
+export const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS.split(",")
+
+// VARIABLES VARIAS
 export const ROOT = path.dirname(__filename)
 
 // VARIABLES DE ENTORNO

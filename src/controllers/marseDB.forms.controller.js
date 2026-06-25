@@ -19,6 +19,10 @@ export const postForm = (req, res) => {
       return res.status(400).json({message: "Los campos 'name' , 'contact' y 'message' son obligatorios"})
     }
     
+    if(contact.length < 5){
+      return res.status(400).json({message: "El campo 'contact' no puede tener menos de 5 caracteres"})
+    }
+    
     // crear la webada
 
     const result = dbMarse
