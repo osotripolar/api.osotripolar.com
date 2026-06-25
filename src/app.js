@@ -12,14 +12,23 @@ import apiMarse from "./routers/api.marse.js"
 const app = express()
 
 const corsOptions = {
-  origin: (origin, callback) =>{
-    if(!origin) return callback(null, true);
-    
-    if(ALLOWED_ORIGINS.includes(origin)){
-      return callback(null,true)
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+
+    // Limpiamos barra final por si acaso
+    const cleanOrigin = origin.endsWith('/') ? origin.slice(0, -1) : origin;
+
+    if (ALLOWED_ORIGINS.includes(cleanOrigin)) {
+      return callback(null, true);
     }
-    
-    callback(new Error("CORS blocked"))
+
+    // ESTO TE DIRÁ EL ERROR REAL EN PM2:
+    console.log("=========================================");
+    console.log("CORS RECHAZADO -> El origen recibido fue:", origin);
+    console.log("ALLOWED_ORIGINS actuales:", ALLOWED_ORIGINS);
+    console.log("=========================================");
+
+    callback(new Error("CORS blocked"));
   }
 }
 
