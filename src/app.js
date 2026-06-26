@@ -41,6 +41,10 @@ app.use('/personal',apiPersonal)
 app.use('/marse',apiMarse)
 
 app.use('/', (req, res) => {
+  res.status(200).json({message: "ruta principal"})
+}) 
+
+app.use((req, res) => {
   res.status(404).json({message: "ruta no encontrada"})
 }) 
 
