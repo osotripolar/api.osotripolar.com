@@ -41,7 +41,7 @@ app.use('/personal',apiPersonal)
 app.use('/marse',apiMarse)
 
 app.use('/', (req, res) => {
-  res.status(200).json({message: "ruta principal"})
+  res.status(200).send("bash script running ok")
 }) 
 
 app.use((req, res) => {

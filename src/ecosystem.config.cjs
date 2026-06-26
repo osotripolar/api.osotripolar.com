@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: 'api.osotripolar.com',
-    script: './app.js',
+    script: 'src/app.js',
     watch: false
   }]
 };
