@@ -1,16 +1,34 @@
 import dbPersonal from "../db/personal.db.js"
 
+// NOTEGROUP
+
+const groups = [
+  { "name": "grupo A" },
+  { "name": "grupo B" },
+]
+
+const insertGroups = dbPersonal
+  .prepare(`INSERT INTO notegroup (name) VALUES (?)`)
+
+groups.forEach((data)=>{
+  insertGroups.run(data.name)
+})
+
+// NOTES
+
 const data = [
-  { "name": "omar", "username": "'orwell'" },
-  { "name": "omar", "username": "'chino'" },
-  { "name": "omar", "username": "'oso'" }
+  { "content": "abejas", "group_id": 1 },
+  { "content": "ardilla", "group_id": 1 },
+  { "content": "barbacoa", "group_id": 2 },
+  { "content": "156", "group_id": null },
+  { "content": "1654", "group_id": null }
 ]
 
 const insertData = dbPersonal
-  .prepare(`INSERT INTO users (name,username) VALUES (?,?)`)
+  .prepare(`INSERT INTO notes (content, group_id) VALUES (?,?)`)
 
 data.forEach((data) => {
-  insertData.run(data.name, data.username)
+  insertData.run(data.content, data.group_id)
 })
 
-console.log('usuarios añadidos')
+console.log('notas añadidas')

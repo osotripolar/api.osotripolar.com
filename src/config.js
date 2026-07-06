@@ -29,3 +29,7 @@ export const ROOT = path.dirname(__filename)
 
 // VARIABLES DE ENTORNO
 export const PORT = Number(process.env.PORT)
+
+export const {
+  INTERNAL_BEARER_TOKEN_DB_PERSONAL
+} = process.env

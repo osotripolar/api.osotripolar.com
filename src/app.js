@@ -11,8 +11,10 @@ import apiMarse from "./routers/api.marse.js"
 // CONFIG ====================
 const app = express()
 
+// hay que investigar bien como funciona esto
 const corsOptions = {
   origin: (origin, callback) => {
+    // console.log("Origin recibido:", origin);
     if (!origin) return callback(null, true);
 
     // Limpiamos barra final por si acaso
@@ -31,9 +33,9 @@ const corsOptions = {
     callback(new Error("CORS blocked"));
   }
 }
-
-app.use(express.json())
+// esto tambien
 app.use(cors(corsOptions))
+app.use(express.json())
 
 // RUTAS ====================
 
@@ -41,7 +43,7 @@ app.use('/personal',apiPersonal)
 app.use('/marse',apiMarse)
 
 app.use('/', (req, res) => {
-  res.status(200).send("bash script running ok")
+  res.status(200).send("llegamos a api")
 }) 
 
 app.use((req, res) => {
