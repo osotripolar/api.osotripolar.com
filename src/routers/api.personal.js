@@ -10,7 +10,7 @@ router.use((req,res,next)=>{
 
   if(autorization !== INTERNAL_BEARER_TOKEN_DB_PERSONAL){
     console.log('no paso')
-    res.sendStatus(403)
+    return res.sendStatus(403)
   }
   console.log('paso')
   next()  
