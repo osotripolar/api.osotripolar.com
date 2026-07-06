@@ -5,6 +5,7 @@ export const getForms = (req, res) => {
     const forms = dbMarse.prepare('SELECT * FROM forms').all()
     res.send(forms)
   } catch (error) {
+    console.log('hubo un error')
     console.error(error)
     res.sendStatus(500)
   }
