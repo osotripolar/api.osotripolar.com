@@ -5,7 +5,8 @@ export const getNotes = (req,res) => {
   try{
     const users = dbPersonal.prepare('SELECT * FROM notes').all()
     return res.send(users)
-  }catch{
+  }catch(err){
+    console.log(err)
     return res.sendStatus(500)
   }
 }
