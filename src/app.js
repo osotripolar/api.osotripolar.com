@@ -1,6 +1,5 @@
 import path from "node:path";
 import fs from "node:fs";
-
 import express from "express"
 import cors from "cors"
 
@@ -8,7 +7,7 @@ import { PORT , ROOT , ALLOWED_ORIGINS} from "./config.js";
 import apiPersonal from "./routers/api.personal.js"
 import apiMarse from "./routers/api.marse.js"
 
-// CONFIG ====================
+// CONFIG - MIDDLEWHERE ==================
 const app = express()
 
 // hay que investigar bien como funciona esto
@@ -33,17 +32,19 @@ const corsOptions = {
     callback(new Error("CORS blocked"));
   }
 }
-// esto tambien
+
 app.use(cors(corsOptions))
 app.use(express.json())
 
-// RUTAS ====================
+// RUTAS =================================
 
 app.use('/personal',apiPersonal)
 app.use('/marse',apiMarse)
 
+// RUTAS =================================
+
 app.use('/', (req, res) => {
-  res.status(200).send("llegamos a api")
+  res.status(200).send("Api")
 }) 
 
 app.use((req, res) => {

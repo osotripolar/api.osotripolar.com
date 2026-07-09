@@ -1,57 +1,70 @@
 import dbPersonal from "../db/personal.db.js"
 
-export const getNotes = (req,res) => {
+export const getNotes = (req, res) => {
 
-  try{
+  try {
     const users = dbPersonal.prepare('SELECT * FROM notes').all()
     return res.send(users)
-  }catch(err){
+  } catch (err) {
     console.log(err)
     return res.sendStatus(500)
   }
 }
 
-export const postNote = (req,res) =>{
-  res.sendStatus(204)
+export const postNote = (req, res) => {
+  try {
+
+    const { content, group_id } = req.body
+
+    if (!content) {
+      return res.status(400).json({ message: "El campo 'content' es obligatorio" })
+    }
+
+    const result = dbPersonal
+      .prepare(`INSERT INTO notes (content, group_id) VALUES (?,?)`)
+      .run(content, group_id)
+
+    const newUser = {
+      id: result.lastInsertRowid,
+      content,
+      group_id
+    }
+
+    return res.status(201).json(newUser)
+
+  } catch (error) {
+    console.log(error)
+    return res.sendStatus(500)
+  }
 }
 
-// export const postUser = (req, res) => {
-//   try {
+export const deleteNote = (req, res) => {
 
-//     const { name, username } = req.body
+  try {
+    const { id } = req.params
 
-//     if (!name || !username) {
-//       return res.status(400).json({ message: "Los campos 'name' y 'username' son obligatorios" })
-//     }
+    if (!id) {
+      return res.sendStatus(400)
+    }
+    
+    const sentence = dbPersonal.prepare('DELETE FROM notes WHERE id = ?')
+    const result = sentence.run(id)
+    
+    
+    console.log(result.changes)
+    if(result.changes == 1){
+      return res.sendStatus(200)
+    }
 
-//     // confirmar si el username existe o no
-//     const userExists = !!dbPersonal
-//       .prepare('SELECT * FROM users WHERE username = ?')
-//       .get(username)
+    console.log(result.changes)
+    return res.sendStatus(404)
 
-//     if (userExists) {
-//       return res.status(409).json({ message: "ese usuario ya existe" })
-//     }
+  } catch (error) {
+    console.log(error)
+    return res.sendStatus(500)
+  }
 
-//     const result = dbPersonal
-//       .prepare(`INSERT INTO users (name, username) VALUES (?,?)`)
-//       .run(name, username)
-
-//     const newUser = {
-//       id: result.lastInsertRowid,
-//       name,
-//       username
-//     }
-
-//     res.status(201).json(newUser)
-
-//   } catch (error) {
-
-//     console.error(error)
-//     res.sendStatus(500)
-
-//   }
-// }
+}
 
 // export const deleteUser = (req, res) => {
 //   try {
