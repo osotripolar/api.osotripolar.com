@@ -33,7 +33,7 @@ export const postNote = (req, res) => {
     return res.status(201).json(newUser)
 
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return res.sendStatus(500)
   }
 }
@@ -46,40 +46,82 @@ export const deleteNote = (req, res) => {
     if (!id) {
       return res.sendStatus(400)
     }
-    
+
     const sentence = dbPersonal.prepare('DELETE FROM notes WHERE id = ?')
     const result = sentence.run(id)
-    
-    
-    console.log(result.changes)
-    if(result.changes == 1){
+
+    if (result.changes == 1) {
       return res.sendStatus(200)
     }
 
-    console.log(result.changes)
     return res.sendStatus(404)
 
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return res.sendStatus(500)
   }
 
 }
 
-// export const deleteUser = (req, res) => {
+export const getNoteGroup = (req, res) => {
+  try {
+    const users = dbPersonal.prepare('SELECT * FROM notegroup').all()
+    return res.send(users)
+  } catch (error) {
+    console.error(error)
+    return res.sendStatus(500)
+  }
+}
+
+export const postNoteGroup = (req, res) => {
+  try {
+    const { name } = req.body
+
+    if (!name) {
+      return res.status(400).json({ message: "El campo 'name' es obligatorio" })
+    }
+
+    const result = dbPersonal
+      .prepare(`INSERT INTO notegroup (name) VALUES (?)`)
+      .run(name)
+
+    const newUser = {
+      id: result.lastInsertRowid,
+      name
+    }
+
+    return res.status(201).json(newUser)
+
+  } catch (error) {
+    console.error(error)
+    return res.sendStatus(500)
+  }
+}
+
+// export const deleteNoteGroup = (req, res) => {
+
 //   try {
+//     const { id } = req.params
+
+//     if (!id) {
+//       return res.sendStatus(400)
+//     }
+
+//     const sentence = dbPersonal.prepare('DELETE FROM notes WHERE id = ?')
+//     const result = sentence.run(id)
+
+
+//     console.log(result.changes)
+//     if (result.changes == 1) {
+//       return res.sendStatus(200)
+//     }
+
+//     console.log(result.changes)
+//     return res.sendStatus(404)
 
 //   } catch (error) {
-//     console.error(error)
-//     res.sendStatus(500)
+//     console.log(error)
+//     return res.sendStatus(500)
 //   }
-// }
 
-// export const putUser = (req, res) => {
-//   try {
-
-//   } catch (error) {
-//     console.error(error)
-//     res.sendStatus(500)
-//   }
 // }
