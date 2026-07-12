@@ -7,7 +7,7 @@ CREATE TABLE notes(
   group_id INTEGER,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-  FOREIGN KEY (group_id) REFERENCES notegroup(id)
+  FOREIGN KEY (group_id) REFERENCES notegroup(id) ON DELETE CASCADE
 );
 
 CREATE TABLE notegroup(

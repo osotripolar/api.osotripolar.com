@@ -98,30 +98,29 @@ export const postNoteGroup = (req, res) => {
   }
 }
 
-// export const deleteNoteGroup = (req, res) => {
+export const deleteNoteGroup = (req, res) => {
 
-//   try {
-//     const { id } = req.params
+  try {
+    const { id } = req.params
 
-//     if (!id) {
-//       return res.sendStatus(400)
-//     }
+    if (!id) {
+      return res.sendStatus(400)
+    }
 
-//     const sentence = dbPersonal.prepare('DELETE FROM notes WHERE id = ?')
-//     const result = sentence.run(id)
+    const sentence = dbPersonal.prepare('DELETE FROM notegroup WHERE id = ?')
+    const result = sentence.run(id)
 
+    if (result.changes == 1) {
+      return res.sendStatus(200)
+    }
 
-//     console.log(result.changes)
-//     if (result.changes == 1) {
-//       return res.sendStatus(200)
-//     }
+    return res.sendStatus(404)
 
-//     console.log(result.changes)
-//     return res.sendStatus(404)
+  } catch (error) {
+    if (error.code == 'SQLITE_CONSTRAINT_FOREIGNKEY'){
+      console.log('ya pes')
+    }
+    return res.sendStatus(500)
+  }
 
-//   } catch (error) {
-//     console.log(error)
-//     return res.sendStatus(500)
-//   }
-
-// }
+}
