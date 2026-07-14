@@ -63,6 +63,28 @@ export const deleteNote = (req, res) => {
 
 }
 
+export const putNote = (req,res)=>{
+
+  try{
+    const {id} = req.params
+    const {content, group_id} = req.body
+
+    const stmt = dbPersonal.prepare(`UPDATE notes SET content = ?, group_id = ? WHERE id = ?`)
+    const result = stmt.run(content,group_id,id)
+
+    if(result.changes == 1){
+      return res.sendStatus(200)
+    }else{
+      return res.sendStatus(400)
+    }
+
+  }catch(error){
+    console.log(error)
+    res.sendStatus(500)
+  }
+  
+}
+
 export const getNoteGroup = (req, res) => {
   try {
     const users = dbPersonal.prepare('SELECT * FROM notegroup').all()
