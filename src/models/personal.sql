@@ -12,5 +12,6 @@ CREATE TABLE notes(
 
 CREATE TABLE notegroup(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL
+  name TEXT NOT NULL,
+  description TEXT null
 );

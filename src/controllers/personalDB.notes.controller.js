@@ -146,3 +146,30 @@ export const deleteNoteGroup = (req, res) => {
   }
 
 }
+
+export const putNoteGroup = (req, res) => {
+
+  try {
+    const { id } = req.params
+    const { name } = req.body
+
+    if(!id || !name){
+      res.sendStatus(400)
+      return
+    } 
+
+    const stmt = dbPersonal.prepare(`UPDATE notegroup SET name = ? WHERE id = ?`)
+    const result = stmt.run(name, id)
+
+    if (result.changes == 1) {
+      return res.sendStatus(200)
+    } else {
+      return res.sendStatus(400)
+    }
+
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+
+}
